@@ -55,7 +55,3 @@ The script will begin crawling all reachable links and print out:
 * No rate limiting or maximum depth/count control
 * Only filters based on presence of keyword in the URL, not page content
 
-## License
-
-This project is open-source and available under the MIT License.
-
