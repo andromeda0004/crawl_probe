@@ -40,7 +40,7 @@ pip install requests beautifulsoup4
 
 The script will begin crawling all reachable links and print out:
 
-* Every link it visits
+* Every link it visits depth first
 * Links that contain the specified keyword
 
 ## Notes
