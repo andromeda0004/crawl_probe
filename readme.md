@@ -55,3 +55,10 @@ The script will begin crawling all reachable links and print out:
 * No rate limiting or maximum depth/count control
 * Only filters based on presence of keyword in the URL, not page content
 
+## Sample flow structure
+
+spider(A)
+ ├── spider(B)
+ │     ├── spider(B1)
+ │     └── spider(B2)
+ └── spider(C)
