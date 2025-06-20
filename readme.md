@@ -57,7 +57,7 @@ The script will:
 * No built-in rate limiting or max depth control
 * Filters only based on keyword presence in the URL, not page content
 
-## Sample Crawl Structure (If Depth is 2)
+## Sample Crawl Structure (Assuming the depth to be 2)
 
 ```
 spider(A)
