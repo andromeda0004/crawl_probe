@@ -60,16 +60,18 @@ search_depth = int(input("enter search depth (no of matches to be listed): "))
 spider(user_url,user_keyword,search_depth)
 
 user_prompt = input("Would you like a copy of the URL files? y/n: \n")
-if user_prompt == 'y':
+if user_prompt.lower() == 'y':
 	with open("url.txt", "w") as f:
 
 		for items in matched_urls:
 				f.write("%s\n" %items)
-		print("file written successfully.")
+		print("\nFile written successfully.")
 
 	f.close()
+elif user_prompt.lower() == 'n':
+	print("No file created.")
 else:
-	pass
+	print("Invalid prompt!")
 
 #sample site to scrape => https://books.toscrape.com/index.html
 #sample keyword => catalogue
