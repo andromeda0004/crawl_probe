@@ -1,4 +1,4 @@
-import requests #for the actual get requests which pull the content out of a given page
+import requests #for the actual get requests which pull the content out of a given page.
 from bs4 import BeautifulSoup #used to pull data out of html documents and present it in a way such that navigating the site is easier 
 from urllib.parse import urljoin #for creating absolute links for the spider to naviagte easily
 import time #to use for delays and re-connections
@@ -71,7 +71,5 @@ if user_prompt == 'y':
 else:
 	pass
 
-#sample site to scrape => 
-# https://books.toscrape.com/index.html
-#sample keyword =>
-#  catalogue
+#sample site to scrape => https://books.toscrape.com/index.html
+#sample keyword => catalogue
