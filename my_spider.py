@@ -5,7 +5,7 @@ import time #to use for delays and re-connections
 
 visited_nodes = set() #so that duplicates are eliminated while the recursive function keeps running
 matches_count = 0
-
+matched_urls = []
 
 def spider(url,keyword,depth): #increases every iteration by 1, so that the depth is maintained and the function can backtrack when it reaches the depth limit.
 	
@@ -13,6 +13,7 @@ def spider(url,keyword,depth): #increases every iteration by 1, so that the dept
 
 	if matches_count >= depth:
 		return
+	
 	# this block is in case an http error is encountered
 	try:
 		res = requests.get(url, timeout=5) #if greater than 5 assume failure and give up, go to exception
@@ -46,17 +47,29 @@ def spider(url,keyword,depth): #increases every iteration by 1, so that the dept
 				print("Visiting: ", url_join) #all urls being visited
 				if keyword.lower() in url_join.lower():
 					print("Matched: ", url_join)  #only matching keyword urls being shown separately
+					matched_urls.append(url_join)	
 					matches_count=matches_count+ 1
 					if matches_count>=depth:
 						print("Limit reached. Stopping the crawl") #for internal loop where it is depth first
 						return
 				spider(url_join,keyword,depth) #recursively running function which goes depth first before backtracking to perform further operations.
-
+	
 user_url=input("enter a site: \n")
 user_keyword=input("enter relevant keyword: ")
 search_depth = int(input("enter search depth (no of matches to be listed): "))
 spider(user_url,user_keyword,search_depth)
 
+user_prompt = input("Would you like a copy of the URL files? y/n: \n")
+if user_prompt == 'y':
+	with open("url.txt", "w") as f:
+
+		for items in matched_urls:
+				f.write("%s\n" %items)
+		print("file written successfully.")
+
+	f.close()
+else:
+	pass
 
 #sample site to scrape => 
 # https://books.toscrape.com/index.html
