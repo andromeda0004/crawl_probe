@@ -4,9 +4,15 @@ from urllib.parse import urljoin #for creating absolute links for the spider to 
 import time #to use for delays and re-connections
 
 visited_nodes = set() #so that duplicates are eliminated while the recursive function keeps running
+matches_count = 0
 
-def spider(url,keyword):
+
+def spider(url,keyword,depth): #increases every iteration by 1, so that the depth is maintained and the function can backtrack when it reaches the depth limit.
 	
+	global matches_count #important to make sure that the scope of matches_count is global for it to be used anywhere for increments.
+
+	if matches_count >= depth:
+		return
 	# this block is in case an http error is encountered
 	try:
 		res = requests.get(url, timeout=5) #if greater than 5 assume failure and give up, go to exception
@@ -32,19 +38,27 @@ def spider(url,keyword):
 
 		#core recursive search logic and also unique link logic.
 		for i in urls:
+			if matches_count>=depth:
+				return #for each time when the spider goes through recursion. to avoid extra prints.
 			url_join = urljoin(url,i) #creates an absolute link for the given href link from the urls list. joins the both arguments.
 			if url_join not in visited_nodes: #for unique links 
 				visited_nodes.add(url_join) #for better and robust link generation which is absolute
 				print("Visiting: ", url_join) #all urls being visited
 				if keyword.lower() in url_join.lower():
 					print("Matched: ", url_join)  #only matching keyword urls being shown separately
-					spider(url_join,keyword) #recursively running function which goes depth first before backtracking to perform further operations.
-
+					matches_count=matches_count+ 1
+					if matches_count>=depth:
+						print("Limit reached. Stopping the crawl") #for internal loop where it is depth first
+						return
+				spider(url_join,keyword,depth) #recursively running function which goes depth first before backtracking to perform further operations.
 
 user_url=input("enter a site: \n")
 user_keyword=input("enter relevant keyword: ")
-spider(user_url,user_keyword)
+search_depth = int(input("enter search depth (no of matches to be listed): "))
+spider(user_url,user_keyword,search_depth)
 
 
-#sample site to scrape => https://books.toscrape.com/index.html
-#sample keyword => catalogue
+#sample site to scrape => 
+# https://books.toscrape.com/index.html
+#sample keyword =>
+#  catalogue
